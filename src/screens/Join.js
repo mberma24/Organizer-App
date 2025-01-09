@@ -31,11 +31,24 @@ const Join = () => {
 const styles = StyleSheet.create({
   // page container
   container: {
-    flex: 1,
+    paddingTop: 30,
+    marginTop: 70,
     alignItems: "center",
+    backgroundColor:"#87CEEB",
+    height:300,
+    width: 350,
+    alignSelf:"center",
+
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 3,
+
   },
   textContainer: {
-    marginTop: 100,
+    
 
     height:50,
     width:300,
@@ -57,10 +70,10 @@ const styles = StyleSheet.create({
     
     borderRadius:10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 1,
 
     backgroundColor:"#fff",
 

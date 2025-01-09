@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Dropdown from "../components/DropDown";
-import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { showLocation } from 'react-native-map-link';
 import { Ionicons } from "@expo/vector-icons";
 
-const x = console.log("hello world!");
 
 const SignIn = () => {
   const [code, setCode] = useState('');
@@ -15,7 +15,6 @@ const SignIn = () => {
     { color: "#87CEEB", label: "Screen 3" },
     { color: "#87CEEB", label: "Screen 4" },
     { color: "#87CEEB", label: "Screen 5" },
-    
     { color: "#87CEEB", label: "Screen 6" },
   ];
 
@@ -27,6 +26,7 @@ const SignIn = () => {
 
   return (
     <View style={styles.container}>
+      {/* Dropdown display */}
       <View style={styles.dropDownContainer}>
         <Dropdown
           data={[
@@ -43,17 +43,49 @@ const SignIn = () => {
       </View>
       {/* Contents */}
       <View style={styles.contentsContainer}>
+        {/* Horizontal slider for pages */}
         <ScrollView
           horizontal
           pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
           onScroll={handleScroll}
-          scrollEventThrottle={16} // Ensures smooth scrolling tracking
         >
           {pages.map((page, index) => (
             <View key={index} style={[styles.page, { backgroundColor: page.color }]}>
-              <Text style={styles.pageName}>{page.label}</Text>
-              <Text style={styles.pageTime}>Time</Text>
+              <View style={styles.nameBox}> 
+                <Text style={styles.nameText}>{page.label}</Text>
+              </View>
+              <View style = {styles.fullContainter}>
+              <View style={styles.timeBox}>
+                <Text style={styles.pageTime}>Time:</Text>
+                <Text style={styles.timeText}>XX:XX am</Text>
+              </View>
+
+              <View style={styles.locationBox}>
+                <Text style={styles.locLiteral}>Location</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    showLocation({
+                      address: "197 E. Woodland Circle Thornton, CO 80241", 
+                      dialogTitle: "Open in Maps", 
+                      dialogMessage: "Would you like to open this location in maps?", 
+                      cancelText: "Cancel", 
+                    })
+                  }
+                >
+                  <Text style={styles.locationText}>197 E. Woodland Circle Thornton, CO 80241</Text>
+                </TouchableOpacity>
+              </View>
+              
+              </View>
+              <View style={styles.schedulingBox}>
+                <TouchableOpacity>
+                  <Ionicons name="alarm" size={40} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionicons name="calendar" size={40} color="black" />
+                </TouchableOpacity>
+              </View>
               
             </View>
           ))}
@@ -119,19 +151,74 @@ const styles = StyleSheet.create({
   page: {
     width: 300,
     alignItems:"center",
+    
     borderRadius: 10,
+    alignContent:"space-evenly"
   },
-  pageName: {
+  
+  nameBox: {
     marginTop:30,
+    height:40,
+    width: 250,
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent:"center",
+    borderRadius:10,
+  },
+  nameText: {
     fontSize: 20,
     color: "#fff",
     fontWeight: "bold",
+  },
+  fullContainter: {
+    width: 275,
+    backgroundColor:"#fff",
+    marginTop:15,
+    borderRadius:20,
+    justifyContent: "center",
+    alignItems:"center",
+    paddingBottom:20,
+  },
+  timeBox: {
+    width:250,
+    height:50,
+    flexDirection:"row",
+    justifyContent:"space-evenly",
+    alignItems:"center",
+    
   },
   pageTime: {
-    marginTop:50,
     fontSize: 20,
-    color: "#fff",
+    color: "#000",
     fontWeight: "bold",
+  },
+  timeText: {
+    fontSize: 17,
+    color: "#000",
+  },
+  locationBox: {
+    marginTop:10,
+    width:250,
+    height:80,
+    justifyContent:"space-evenly",
+    alignItems:"center",
+  },
+  locLiteral: {
+    fontSize: 18,
+    fontWeight:"bold",
+  },
+  locationText: {
+    fontSize: 13,
+    textDecorationLine:"underline",
+  },
+  schedulingBox: {
+    width:275,
+    height:70,
+    flexDirection:"row",
+    justifyContent:"space-around",
+    alignItems:"center",
+
   },
   pagination: {
     position: "absolute",
