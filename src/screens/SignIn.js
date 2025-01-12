@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import Dropdown from "../components/DropDown";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+//open maps
 import { showLocation } from 'react-native-map-link';
+//icons
 import { Ionicons } from "@expo/vector-icons";
-
+//firebase imports
+import { db } from "../config/firebase";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const SignIn = () => {
   const [code, setCode] = useState('');
-  const [activePage, setActivePage] = useState(0); // Track the active page
+  const [activePage, setActivePage] = useState(0); // Track the active page\
 
   const pages = [
     { color: "#87CEEB", label: "Shacharit" },
@@ -20,7 +24,7 @@ const SignIn = () => {
 
   const handleScroll = (event) => {
     const scrollX = event.nativeEvent.contentOffset.x;
-    const pageIndex = Math.round((scrollX / 300)); // Use the center of the page for accuracy
+    const pageIndex = Math.round((scrollX / 350)); // Use the center of the page for accuracy
     setActivePage(pageIndex);
   };
 
@@ -110,8 +114,8 @@ const SignIn = () => {
           <Text style={styles.quitText}>Leave Minyan</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity>
-          <Ionicons name="refresh-circle" style={styles.refreshButton} size={50} color="white" backgroundColor="#000"/>
+        <TouchableOpacity style={styles.refreshButtonContainer}>
+          <Ionicons name="refresh-circle" style={styles.refreshButton} size={55}  />
         </TouchableOpacity>
         
       </View>
@@ -138,8 +142,8 @@ const styles = StyleSheet.create({
   contentsContainer: {
     marginTop: 30,
     backgroundColor: "#8bd9fb",
-    height: 350,
-    width: 300,
+    height: 375,
+    width: 350,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
@@ -149,9 +153,8 @@ const styles = StyleSheet.create({
     position: "relative", // For proper positioning of the pagination dots
   },
   page: {
-    width: 300,
+    width: 350,
     alignItems:"center",
-    
     borderRadius: 10,
     alignContent:"space-evenly"
   },
@@ -172,7 +175,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   fullContainter: {
-    width: 275,
+    width: 325,
+    height: 180,
     backgroundColor:"#fff",
     marginTop:15,
     borderRadius:20,
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
     paddingBottom:20,
   },
   timeBox: {
-    width:250,
+    width:300,
     height:50,
     flexDirection:"row",
     justifyContent:"space-evenly",
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
   },
   locationBox: {
     marginTop:10,
-    width:250,
+    width:300,
     height:80,
     justifyContent:"space-evenly",
     alignItems:"center",
@@ -213,8 +217,9 @@ const styles = StyleSheet.create({
     textDecorationLine:"underline",
   },
   schedulingBox: {
-    width:275,
+    width:325,
     height:70,
+    marginTop: 10,
     flexDirection:"row",
     justifyContent:"space-around",
     alignItems:"center",
@@ -238,7 +243,7 @@ const styles = StyleSheet.create({
   activeDot: {
     backgroundColor: "#333",
   },
-  //bottom bottoms 
+  //bottom bottoms (quit, refresh)
   bottomButtons: {
     marginTop:60,
     flexDirection:"row",
@@ -247,19 +252,33 @@ const styles = StyleSheet.create({
     
   },
   //refresh button
-  refreshButton: {
+  refreshButtonContainer: {
     justifyContent:"center",
     alignItems:"center",
+    alignContent:"center",
+    alignSelf:"center",
 
+    borderRadius:80,
+    height:40,
+    width:40,
+    marginLeft:60,
+    backgroundColor:"#000",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 3,
 
-    borderRadius:40,
-
-  
-
+  },
+  //refresh button
+  refreshButton: {
+    color: "#fff",
+    height:55,
+    width:55,
   },
   //quit container
   quitButtonContainer: {
-    marginRight:40,
+    marginRight:50,
     width:150,
     height:50,
     backgroundColor:"#ff8080",
